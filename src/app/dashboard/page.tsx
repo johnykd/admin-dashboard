@@ -8,32 +8,8 @@ export default function DashboardPage() {
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      router.push("/login");
-      return;
-    }
-
-    const isMock =
-      typeof window !== "undefined" &&
-      (window.location.hostname === "localhost" ||
-        process.env.NEXT_PUBLIC_MOCK_TOKEN === "1");
-
-    if (isMock) {
-      // ensure there's a token in localStorage for dev
-      let devToken = token;
-      if (!devToken) {
-        devToken = "mock-token-123";
-        localStorage.setItem("token", devToken);
-      }
-
-      // mocked async user fetch
-      Promise.resolve({ username: "devuser" }).then((data) => setUser(data));
-      return;
-    }
-
-    fetch("http://localhost:4000/api/me", {
-      headers: { Authorization: `Bearer ${token}` },
+    fetch((process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000") + "/api/me", {
+      credentials: "include",
     })
       .then((res) => {
         if (!res.ok) throw new Error("Unauthorized");
