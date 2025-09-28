@@ -11,13 +11,14 @@ export default function RegisterPage() {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    await fetch("http://localhost:4000/api/register", {
+    await fetch(process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
+      credentials: "include",
     });
 
-    router.push("/login"); // ไป login หลังสมัครเสร็จ
+    router.push("/login");
   };
 
   return (
