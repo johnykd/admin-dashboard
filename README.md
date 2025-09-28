@@ -11,6 +11,15 @@
 3. Start Next.js (port 3000):
    - Back to repo root: `npm run dev`
 
+## Run with Docker
+1. Build images and start services:
+   - `docker compose up --build`
+   - Web at `http://localhost:3000`, API at `http://localhost:4000`
+2. Persisted DB lives in the `api_data` volume.
+3. Environment overrides:
+   - Web: `NEXT_PUBLIC_API_URL=http://localhost:4000`
+   - API: `PORT=4000`, `CORS_ORIGIN=http://localhost:3000`, `JWT_ACCESS_SECRET=...`
+
 ## Environment
 Create `apps/api/.env` (already scaffolded):
 ```
